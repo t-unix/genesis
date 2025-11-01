@@ -14,7 +14,7 @@ spec:
       restartPolicy: Never
       containers:
       - name: smart-home-llm
-        image: ghcr.io/YOUR_GITHUB_USERNAME/genesis/smart-home-llm:latest
+        image: ghcr.io/t-unix/genesis/smart-home-llm:latest
         imagePullPolicy: Always
         args:
           - "ORDER_PLACEHOLDER"
