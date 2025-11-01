@@ -54,9 +54,9 @@ if [ $? -eq 0 ]; then
   echo "  kubectl -n ${ARGOCD_NAMESPACE} get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d"
   echo ""
   echo "Port forward to access ArgoCD UI:"
-  echo "  kubectl port-forward svc/argocd-server -n ${ARGOCD_NAMESPACE} 8080:443"
+  echo "  kubectl port-forward svc/argocd-server -n ${ARGOCD_NAMESPACE} 8080:80"
   echo ""
-  echo "Access ArgoCD at: https://localhost:8080"
+  echo "Access ArgoCD at: http://localhost:8080"
   echo "Username: admin"
 else
   echo "✗ Failed to deploy ArgoCD"
