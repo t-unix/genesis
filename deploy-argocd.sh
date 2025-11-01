@@ -50,14 +50,24 @@ if [ $? -eq 0 ]; then
     deployment/argocd-server -n ${ARGOCD_NAMESPACE}
 
   echo ""
+  echo "Applying ArgoCD ingress..."
+  kubectl apply -f gitops/argocd/ingress.yaml
+
+  echo ""
+  echo "✓ ArgoCD ingress created: argocd.genesis"
+  echo ""
   echo "Get initial admin password:"
   echo "  kubectl -n ${ARGOCD_NAMESPACE} get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d"
   echo ""
-  echo "Port forward to access ArgoCD UI:"
-  echo "  kubectl port-forward svc/argocd-server -n ${ARGOCD_NAMESPACE} 8080:80"
+  echo "To update /etc/hosts with ingress entries, run:"
+  echo "  ./update-hosts.sh ${CLUSTER_NAME} <cluster-ip>"
   echo ""
-  echo "Access ArgoCD at: http://localhost:8080"
+  echo "Access ArgoCD at: http://argocd.genesis"
   echo "Username: admin"
+  echo ""
+  echo "Or use port-forward:"
+  echo "  kubectl port-forward svc/argocd-server -n ${ARGOCD_NAMESPACE} 8080:80"
+  echo "  http://localhost:8080"
 else
   echo "✗ Failed to deploy ArgoCD"
   exit 1
