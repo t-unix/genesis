@@ -12,16 +12,16 @@ struct Cli {
     /// Natural language order (e.g., "turn on the kitchen lights")
     order: String,
 
-    #[arg(long, env = "HOMEBRIDGE_URL", default_value = "http://192.168.178.67:8581")]
+    #[arg(long, default_value = "http://192.168.178.67:8581")]
     homebridge_url: String,
 
-    #[arg(long, env = "HOMEBRIDGE_USERNAME")]
+    #[arg(long)]
     homebridge_username: Option<String>,
 
-    #[arg(long, env = "HOMEBRIDGE_PASSWORD")]
+    #[arg(long)]
     homebridge_password: Option<String>,
 
-    #[arg(long, env = "ANTHROPIC_API_KEY")]
+    #[arg(long)]
     anthropic_api_key: Option<String>,
 }
 
@@ -297,11 +297,14 @@ fn main() -> Result<()> {
         .or_else(|| env::var("HOMEBRIDGE_PASSWORD").ok())
         .context("HOMEBRIDGE_PASSWORD is required (via --homebridge-password or env var)")?;
 
+    // Get Homebridge URL (check env var if not provided)
+    let homebridge_url = env::var("HOMEBRIDGE_URL").unwrap_or(cli.homebridge_url);
+
     println!("🏠 Smart Home LLM Agent\n");
     println!("📋 Order: {}\n", cli.order);
 
     // Initialize agent
-    let agent = SmartHomeAgent::new(cli.homebridge_url, username, password)?;
+    let agent = SmartHomeAgent::new(homebridge_url, username, password)?;
 
     // Get device list
     let device_list = agent.get_device_list();
