@@ -39,7 +39,7 @@ echo "Installing ArgoCD..."
 helm install argocd argo/argo-cd \
   --namespace ${ARGOCD_NAMESPACE} \
   --version 7.7.11 \
-  --set server.service.type=LoadBalancer
+  --values gitops/argocd/values.yaml
 
 if [ $? -eq 0 ]; then
   echo ""

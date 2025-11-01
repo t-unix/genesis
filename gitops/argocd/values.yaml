@@ -1,6 +1,10 @@
 # ArgoCD Helm values
 # Used by deploy-argocd.sh
 
+configs:
+  params:
+    server.insecure: true
+
 server:
   service:
     type: LoadBalancer
