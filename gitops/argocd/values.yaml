@@ -1,0 +1,6 @@
+# ArgoCD Helm values
+# Used by deploy-argocd.sh
+
+server:
+  service:
+    type: LoadBalancer
