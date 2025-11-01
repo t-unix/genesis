@@ -1,0 +1,45 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: smart-home-llm-TIMESTAMP
+  namespace: default
+spec:
+  ttlSecondsAfterFinished: 3600  # Clean up after 1 hour
+  backoffLimit: 2
+  template:
+    metadata:
+      labels:
+        app: smart-home-llm
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: smart-home-llm
+        image: ghcr.io/YOUR_GITHUB_USERNAME/genesis/smart-home-llm:latest
+        imagePullPolicy: Always
+        args:
+          - "ORDER_PLACEHOLDER"
+        env:
+          - name: HOMEBRIDGE_URL
+            value: "http://192.168.178.67:8581"
+          - name: HOMEBRIDGE_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: homebridge-credentials
+                key: username
+          - name: HOMEBRIDGE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: homebridge-credentials
+                key: password
+          - name: ANTHROPIC_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: anthropic-credentials
+                key: api-key
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"

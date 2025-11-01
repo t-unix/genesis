@@ -3,6 +3,14 @@ name = "smart-home-agent"
 version = "0.1.0"
 edition = "2021"
 
+[[bin]]
+name = "smart-home-agent"
+path = "src/main.rs"
+
+[[bin]]
+name = "smart-home-llm"
+path = "src/llm_agent.rs"
+
 [dependencies]
 reqwest = { version = "0.11", features = ["json", "blocking"] }
 serde = { version = "1.0", features = ["derive"] }

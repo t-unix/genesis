@@ -14,6 +14,27 @@ Memory cgroups enabled in `/boot/cmdline.txt`:
 cgroup_memory=1 cgroup_enable=memory
 ```
 
+## Smart Home Control
+
+### LLM Agent (Kubernetes Jobs)
+Natural language smart home control powered by Claude 3.5 Haiku.
+
+**Run an order:**
+```bash
+./run-smart-home-order.sh "turn on the kitchen lights"
+```
+
+See [README-LLM-AGENT.md](README-LLM-AGENT.md) for full documentation.
+
+**Prerequisites:**
+- Anthropic API key stored in k8s secret `anthropic-credentials`
+- Container image built and pushed via GitHub Actions
+
+### CLI Agent (Local)
+Fast Rust-based CLI for direct device control.
+
+See [README-AGENT.md](README-AGENT.md) for full documentation.
+
 ## Management Scripts
 
 ### get-kubeconfig.sh
