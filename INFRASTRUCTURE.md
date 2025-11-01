@@ -234,7 +234,29 @@ kubectl get nodes
 ssh squid
 ```
 
-### Control Kitchen Lights (MQTT)
+### Smart Home Agent (Recommended)
+```bash
+# Build the agent
+cargo build --release
+
+# List all devices
+./target/release/smart-home-agent list
+
+# Control kitchen lights (quick)
+./target/release/smart-home-agent kitchen ein
+./target/release/smart-home-agent kitchen aus
+
+# Control any device by name
+./target/release/smart-home-agent on "wohnzimmer"
+./target/release/smart-home-agent off "arbeitszimmer"
+
+# Set brightness
+./target/release/smart-home-agent brightness "bruno schrank" 50
+```
+
+See [README-AGENT.md](README-AGENT.md) for full documentation.
+
+### Control Kitchen Lights (MQTT Alternative)
 ```bash
 # Off
 ssh squid "docker exec zigbee2mqtt-mqtt-1 mosquitto_pub -h localhost -t 'zigbee2mqtt/Kuechentisch Licht 1/set' -m '{\"state\":\"OFF\"}'"
