@@ -11,11 +11,21 @@ WORKDIR /app
 # Copy manifests
 COPY Cargo.toml ./
 
-# Copy source code
+# Create dummy source to build dependencies
+RUN mkdir src && \
+    echo "fn main() {}" > src/main.rs && \
+    echo "fn main() {}" > src/llm_agent.rs
+
+# Build dependencies only (this layer will be cached)
+RUN cargo build --release --bin smart-home-llm && \
+    rm -rf src
+
+# Copy actual source code
 COPY src ./src
 
-# Build release binary
-RUN cargo build --release --bin smart-home-llm
+# Build the actual binary (only this rebuilds when code changes)
+RUN touch src/llm_agent.rs && \
+    cargo build --release --bin smart-home-llm
 
 # Runtime stage
 FROM debian:bookworm-slim
