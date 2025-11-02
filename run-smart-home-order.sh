@@ -75,11 +75,11 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 kubectl logs job/${JOB_NAME}
 
 # Check job status
-JOB_STATUS=$(kubectl get job ${JOB_NAME} -o jsonpath='{.status.conditions[0].type}')
+JOB_STATUS=$(kubectl get job ${JOB_NAME} -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}')
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-if [ "${JOB_STATUS}" = "Complete" ]; then
+if [ "${JOB_STATUS}" = "True" ]; then
   echo "✅ Job completed successfully"
 else
   echo "❌ Job failed"
